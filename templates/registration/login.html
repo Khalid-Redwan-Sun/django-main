@@ -1,0 +1,16 @@
+<!-- templates/registration/login.html -->
+<!--extend base html from store folder-->
+{% extends "../store/base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<h2>Log In</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Log In</button>
+</form>
+<!--add signup link-->
+<p>Don't have an account? <a href="{% url 'signup' %}">Sign Up</a></p>
+{% endblock %}

@@ -1,0 +1,153 @@
+{%extends "../base.html"%}
+<!--extends base.html-->
+
+{%load static %}
+<!--load static-->
+<!--loading products based on category-->
+
+{% block title %}basket_summary{% endblock title %}
+
+{% block content %}
+
+<!------ Include the above in your HEAD tag ---------->
+
+
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Total</th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+
+                    <tr>
+                        <td class="col-sm-8 col-md-6">
+                            <div class="media">
+                                <a class="thumbnail pull-left" href="#"> <img class="media-object"
+                                        src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png"
+                                        style="width: 72px; height: 72px;"> </a>
+                                <div class="media-body">
+                                    <h4 class="media-heading"><a href="#">{{product.title}}</a></h4>
+                                    <h5 class="media-heading"> by <a href="#">{{product.author}}</a></h5>
+                                    <span>Status: </span><span class="text-success"><strong>
+                                            {% if product.in_stock %}
+                                            In Stock
+                                            {% else %}
+                                            Out of Stock
+                                            {% endif %}
+
+                                        </strong></span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="col-sm-1 col-md-1" style="text-align: center">
+                            <input type="email" class="form-control" id="qty-input" value= "{{ basket_qty|get_item:product.id }}"></input>
+                            
+
+                        </td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>${{product.price}}</strong></td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>${% widthratio product.price 1 basket_qty|get_item:product.id %}</strong></td>
+                        <td class="col-sm-1 col-md-1">
+                            <button type="button" class="btn btn-danger" id="rm-btn{{product.id}}">
+                                <span class="glyphicon glyphicon-remove"></span> Remove
+                            </button>
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+
+
+
+
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>
+                            <h5>Subtotal</h5>
+                        </td>
+                        <td class="text-right">
+                            <h5><strong class="total_price">${{total_price}}</strong></h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>
+                            <h5>Estimated shipping</h5>
+                        </td>
+                        <td class="text-right">
+                            <h5><strong>$0.00</strong></h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>
+                            <h3>Total</h3>
+                        </td>
+                        <td class="text-right">
+                            <h3><strong class="total_price">${{total_price}}</strong></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>
+                            <button type="button" class="btn btn-default">
+                                <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-success">
+                                Checkout <span class="glyphicon glyphicon-play"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+
+    //for loop to remove items from basket
+    {% for product in products %}
+    $("#rm-btn{{product.id}}").click(function(){
+        $.ajax({
+            url: '{% url "basket:basket_add" %}',
+            type: "POST",
+            data: {
+                'id': {{product.id}},
+                action: 'remove'
+            },
+            success: function(json){
+                console.log(json);
+                $("#rm-btn{{product.id}}").parent().parent().remove();
+                total_qty=json.total_qty;
+                $('#cart-btn').text(total_qty);
+                total_price=json.total_price;
+                $('.total_price').text(total_price);
+                
+            }
+        });
+    });
+    {% endfor %}
+</script>
+
+
+{% endblock content %}
