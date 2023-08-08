@@ -44,8 +44,11 @@ INSTALLED_APPS = [
     'store',
     'basket',
     'accounts',
+<<<<<<< HEAD
     #paypal integration
     'paypal.standard.ipn',
+=======
+>>>>>>> 4c91c8f0505e05f4b243f31cc1871d4815965e58
     
 ]
 
@@ -142,9 +145,12 @@ MEDIA_ROOT=os.path.join(BASE_DIR, 'media/')  # for the server  ##BASE_DIR is abs
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
 
+<<<<<<< HEAD
 
 PAYPAL_RECEIVER_EMAIL = 'desphixsbusiness.paypal.com'
 PAYPAL_TEST = True 
 
 
 
+=======
+>>>>>>> 4c91c8f0505e05f4b243f31cc1871d4815965e58

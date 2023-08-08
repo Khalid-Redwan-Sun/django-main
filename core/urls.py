@@ -26,12 +26,18 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+<<<<<<< HEAD
     path('', include('store.urls',namespace='store')),
     path('',include('basket.urls',namespace='basket')),
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/", include("accounts.urls")), 
 
      
+=======
+    
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("accounts/", include("accounts.urls")),    
+>>>>>>> 4c91c8f0505e05f4b243f31cc1871d4815965e58
 # namespace is used to avoid name conflict,each app has its own namespace,,so one app's url dont confilct with another app's url
 ]
 
